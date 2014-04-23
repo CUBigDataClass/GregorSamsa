@@ -3,7 +3,7 @@ var app = express()
   , http = require('http')
   , server = http.createServer(app)
   , io = require('socket.io').listen(server);
-server.listen(80, '54.187.141.69');
+server.listen(3000, "0.0.0.0");
 
 var net = require('net');
 var path = require('path');
@@ -38,7 +38,7 @@ var tcp = net.createServer(function(socket) {
 	});
 });
 
-tcp.listen(1337, '54.187.141.69');
+tcp.listen(1337, "0.0.0.0");
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
