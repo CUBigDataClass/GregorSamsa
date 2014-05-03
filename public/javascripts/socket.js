@@ -1,13 +1,14 @@
 var socket = io.connect('http://localhost');
 var totalNogeoTweets = 0;
 var limitTweetsTable = 100;
+var scene;
     
 jQuery(function($) {
+    draw();
     
     var tweetsWithoutGeoTable = $("#nogeotweetstable").find('tbody');
 
     socket.on('tweets', function(data) {
-        console.log(data.text);
         updateTotalTweetsWithoutGeo();
             // Check Limit
             if(totalNogeoTweets >= limitTweetsTable) {
@@ -15,8 +16,8 @@ jQuery(function($) {
             }
         // add it to the table
         tweetsWithoutGeoTable.prepend(data.text);
+        putPoint("" + data.coordinates[0] +','+ data.coordinates[1] +','+ data.classification);
     });
-    draw();
 });
 
 
@@ -29,15 +30,15 @@ var draw = function () {
 		return;
 	}
 
-	var width  = window.innerWidth,
-	height = window.innerHeight;
+	var width  = window.innerWidth - 25;
+	var height = window.innerHeight;
 
 	// Earth params
 	var radius   = 0.5,
 	segments = 32,
 	rotation = 6;  
 
-	var scene = new THREE.Scene();
+	scene = new THREE.Scene();
 
 	var camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 1000);
 	camera.position.z = 1.5;
@@ -83,6 +84,9 @@ var draw = function () {
 		requestAnimationFrame(render);
 		renderer.render(scene, camera);
 	}
+}
+
+var drawData = function() {
 
 	var data ;
 	data = new XMLHttpRequest();
@@ -101,6 +105,7 @@ var draw = function () {
 			}
 		}
 	}
+}
 
 	function putPoint(coord) {
 		var tokens = coord.split(',');
@@ -167,10 +172,8 @@ var draw = function () {
 	function onWindowResize( event ) {
 		camera.aspect = window.innerWidth / window.innerHeight;
 		camera.updateProjectionMatrix();
-		renderer.setSize( window.innerWidth, window.innerHeight );
+		renderer.setSize( window.innerWidth - 25, window.innerHeight );
 	}
-
-}
 
 /**
  * Updating  tweets counter without geotag

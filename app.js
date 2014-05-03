@@ -32,8 +32,12 @@ app.get('/users', users.list);
 
 var tcp = net.createServer(function(socket) {
 	socket.on('data', function(data) {
+        var pack = JSON.parse(data);
+        console.log(pack.coordinates ? pack.coordinates[0] : null);
 		io.sockets.volatile.emit('tweets', {
-			text: data.toString()
+			text: pack.text,
+            coordinates: pack.coordinates[0],
+            classification: pack.classifcation
 		});
 	});
 });
