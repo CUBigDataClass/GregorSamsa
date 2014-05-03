@@ -40,11 +40,13 @@ var tcp = net.createServer(function(socket) {
                 classification: pack.classifcation
     		});
         }
-        // else {
-        //     io.sockets.volatile.emit('words', {
-        //         word: null
-        //     });
-        // }
+        else {
+            io.sockets.volatile.emit('words', {
+                word: pack.word,
+                percent: pack.percent,
+                classifcation: pack.classification
+            });
+        }
 	});
 });
 

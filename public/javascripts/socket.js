@@ -6,17 +6,22 @@ var scene;
 jQuery(function($) {
     draw();
     
-    var tweetsWithoutGeoTable = $("#nogeotweetstable").find('tbody');
+    var tweetsTextTable = $("#tweetstexttable").find('tbody');
+    var percentTextTable = $("#percenttexttable").find('tbody');
 
     socket.on('tweets', function(data) {
         updateTotalTweetsWithoutGeo();
             // Check Limit
             if(totalNogeoTweets >= limitTweetsTable) {
-                removeTableRow($("#nogeotweetstable"));
+                removeTableRow($("#tweetstexttable"));
             }
         // add it to the table
-        tweetsWithoutGeoTable.prepend(data.text);
+        tweetsTextTable.prepend("<tr><td>" + data.text + "</td></tr>");
         putPoint("" + data.coordinates[0] +','+ data.coordinates[1] +','+ data.classification);
+    });
+
+    socket.on('words', function(data) {
+    	percentTextTable.prepend("<tr>" + "<td>" + data.word + "</td>" + "<td>" + data.percent + "</td>" + "</tr>");
     });
 });
 
@@ -30,7 +35,7 @@ var draw = function () {
 		return;
 	}
 
-	var width  = window.innerWidth - 25;
+	var width  = window.innerWidth;
 	var height = window.innerHeight;
 
 	// Earth params
@@ -172,7 +177,7 @@ var drawData = function() {
 	function onWindowResize( event ) {
 		camera.aspect = window.innerWidth / window.innerHeight;
 		camera.updateProjectionMatrix();
-		renderer.setSize( window.innerWidth - 25, window.innerHeight );
+		renderer.setSize( window.innerWidth, window.innerHeight );
 	}
 
 /**
