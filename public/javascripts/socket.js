@@ -131,7 +131,7 @@ var drawData = function() {
 	}
 
 	function addPoint(phi, theta, color) {
-		if (color =='w'){
+		if (color =='wine'){
 			clr = 0xFF0000;
 		}else {clr = 0x79CDCD}
 		point = new THREE.Mesh(
