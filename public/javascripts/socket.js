@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost');
+var socket = io.connect('http://54.187.141.69');
 var totalNogeoTweets = 0;
 var limitTweetsTable = 100;
 var limitPercentTable = 10;
