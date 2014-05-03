@@ -32,21 +32,27 @@ app.get('/users', users.list);
 
 var tcp = net.createServer(function(socket) {
 	socket.on('data', function(data) {
-        var pack = JSON.parse(data);
-        if(pack.text) {
-    		io.sockets.volatile.emit('tweets', {
-    			text: pack.text,
-                coordinates: pack.coordinates[0],
-                classification: pack.classifcation
-    		});
+        try{
+            var pack = JSON.parse(data);
+            if(pack.text) {
+                io.sockets.volatile.emit('tweets', {
+                    text: pack.text,
+                    coordinates: pack.coordinates[0],
+                    classification: pack.classifcation
+                });
+            }
+            else {
+                io.sockets.volatile.emit('words', {
+                    word: pack.word,
+                    percent: pack.percent,
+                    classifcation: pack.classification
+                });
+            }
+
+        } catch (e){
+            console.log(e);
         }
-        else {
-            io.sockets.volatile.emit('words', {
-                word: pack.word,
-                percent: pack.percent,
-                classifcation: pack.classification
-            });
-        }
+        
 	});
 });
 

@@ -1,6 +1,8 @@
 var socket = io.connect('http://localhost');
 var totalNogeoTweets = 0;
 var limitTweetsTable = 100;
+var limitPercentTable = 10;
+var totalWords = 0;
 var scene;
     
 jQuery(function($) {
@@ -10,6 +12,7 @@ jQuery(function($) {
     var percentTextTable = $("#percenttexttable").find('tbody');
 
     socket.on('tweets', function(data) {
+  		data.toString();
         updateTotalTweetsWithoutGeo();
             // Check Limit
             if(totalNogeoTweets >= limitTweetsTable) {
@@ -21,6 +24,11 @@ jQuery(function($) {
     });
 
     socket.on('words', function(data) {
+    	totalWords = totalWords + 1;
+    	if(totalWords > limitPercentTable){
+    		debugger;
+    		removeTableRow($("percenttexttable"));
+    	}
     	percentTextTable.prepend("<tr>" + "<td>" + data.word + "</td>" + "<td>" + data.percent + "</td>" + "</tr>");
     });
 });
