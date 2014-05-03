@@ -26,7 +26,6 @@ jQuery(function($) {
     socket.on('words', function(data) {
     	totalWords = totalWords + 1;
     	if(totalWords > limitPercentTable){
-    		debugger;
     		removeTableRow($("percenttexttable"));
     	}
     	percentTextTable.prepend("<tr>" + "<td>" + data.word + "</td>" + "<td>" + data.percent + "</td>" + "</tr>");
