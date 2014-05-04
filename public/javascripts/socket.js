@@ -1,18 +1,19 @@
 var socket = io.connect('http://54.187.141.69');
-var totalNogeoTweets = 0;
-var limitTweetsTable = 100;
+var totalTweets = 0;
+var totalWords = 0;
 var scene;
     
 jQuery(function($) {
+   
     draw();
     
     var tweetsTextTable = $("#tweetstexttable").find('tbody');
     var percentTextTable = $("#percenttexttable").find('tbody');
 
     socket.on('tweets', function(data) {
-        updateTotalTweetsWithoutGeo();
+    	totalTweets++;
             // Check Limit
-            if(totalNogeoTweets >= limitTweetsTable) {
+            if(totalTweets > 8) {
                 removeTableRow($("#tweetstexttable"));
             }
         // add it to the table
@@ -21,6 +22,12 @@ jQuery(function($) {
     });
 
     socket.on('words', function(data) {
+    	totalWords++;
+    	// check limit
+    	if(totalWords > 10) {
+    		removeTableRow($('#percenttexttable'));
+    	}
+    	// add to table
     	percentTextTable.prepend("<tr>" + "<td>" + data.word + "</td>" + "<td>" + data.percent + "</td>" + "</tr>");
     });
 });
@@ -179,15 +186,6 @@ var drawData = function() {
 		camera.updateProjectionMatrix();
 		renderer.setSize( window.innerWidth, window.innerHeight );
 	}
-
-/**
- * Updating  tweets counter without geotag
- *
- */
-function updateTotalTweetsWithoutGeo() {
-    totalNogeoTweets = totalNogeoTweets + 1;
-    $("span#totaltweetWithoutGeo").html(totalNogeoTweets);
-}
 
 /**
  * Remove last table row
