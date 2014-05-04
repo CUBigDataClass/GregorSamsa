@@ -1,33 +1,35 @@
 var socket = io.connect('http://54.187.141.69');
-var totalNogeoTweets = 0;
-var limitTweetsTable = 100;
-var limitPercentTable = 10;
+var totalTweets = 0;
 var totalWords = 0;
 var scene;
     
 jQuery(function($) {
+   
     draw();
     
     var tweetsTextTable = $("#tweetstexttable").find('tbody');
     var percentTextTable = $("#percenttexttable").find('tbody');
 
     socket.on('tweets', function(data) {
-  		data.toString();
-        updateTotalTweetsWithoutGeo();
-            // Check Limit
-            if(totalNogeoTweets >= limitTweetsTable) {
-                removeTableRow($("#tweetstexttable"));
-            }
+    	data.toString();
+    	totalTweets++;
+        // Check Limit
+        if(totalTweets > 8) {
+            removeTableRow($("#tweetstexttable"));
+        }
         // add it to the table
         tweetsTextTable.prepend("<tr><td>" + data.text + "</td></tr>");
         putPoint("" + data.coordinates[0] +','+ data.coordinates[1] +','+ data.classification);
     });
 
     socket.on('words', function(data) {
-    	totalWords = totalWords + 1;
-    	if(totalWords > limitPercentTable){
-    		removeTableRow($("percenttexttable"));
+    	data.toString();
+    	totalWords++;
+    	// check limit
+    	if(totalWords > 10) {
+    		removeTableRow($('#percenttexttable'));
     	}
+    	// add to table
     	percentTextTable.prepend("<tr>" + "<td>" + data.word + "</td>" + "<td>" + data.percent + "</td>" + "</tr>");
     });
 });
@@ -186,15 +188,6 @@ var drawData = function() {
 		camera.updateProjectionMatrix();
 		renderer.setSize( window.innerWidth, window.innerHeight );
 	}
-
-/**
- * Updating  tweets counter without geotag
- *
- */
-function updateTotalTweetsWithoutGeo() {
-    totalNogeoTweets = totalNogeoTweets + 1;
-    $("span#totaltweetWithoutGeo").html(totalNogeoTweets);
-}
 
 /**
  * Remove last table row
