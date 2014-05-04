@@ -24,7 +24,7 @@ jQuery(function($) {
 	            removeTableRow($("#tweetstexttable"));
 	        }
 	        // add it to the table
-	        tweetsTextTable.prepend("<tr><td>" + data.text + "</td></tr>");
+	        tweetsTextTable.prepend("<tr><td>" + data.text + "</td></tr>").delay( 800 ).fadeIn( 400 );
 	        putPoint("" + data.coordinates[0] +','+ data.coordinates[1] +','+ data.classification);
 
     	}
@@ -47,7 +47,7 @@ jQuery(function($) {
 	    		removeTableRow($('#percenttexttable'));
 	    	}
 	    	// add to table
-	    	percentTextTable.prepend("<tr>" + "<td>" + data.word + "</td>" + "<td>" + data.percent + "</td>" + "<td>" + data.classification + "</td>" + "</tr>");
+	    	percentTextTable.prepend("<tr>" + "<td>" + data.word + "</td>" + "<td>" + data.percent + "</td>" + "<td>" + data.classification + "</td>" + "</tr>").delay( 800 ).fadeIn( 400 );
 
     	}
     	
