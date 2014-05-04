@@ -24,7 +24,7 @@ jQuery(function($) {
 	            removeTableRow($("#tweetstexttable"));
 	        }
 	        // add it to the table
-	        tweetsTextTable.prepend("<tr><td>" + data.text + "</td></tr>").delay( 800 ).fadeIn( 400 );
+	        tweetsTextTable.prepend("<tr><td>" + data.text + "</td></tr>");
 	        putPoint("" + data.coordinates[0] +','+ data.coordinates[1] +','+ data.classification);
 
     	}
@@ -47,7 +47,7 @@ jQuery(function($) {
 	    		removeTableRow($('#percenttexttable'));
 	    	}
 	    	// add to table
-	    	percentTextTable.prepend("<tr>" + "<td>" + data.word + "</td>" + "<td>" + data.percent + "</td>" + "<td>" + data.classification + "</td>" + "</tr>").delay( 800 ).fadeIn( 400 );
+	    	percentTextTable.prepend("<tr>" + "<td>" + data.word + "</td>" + "<td>" + data.percent + "</td>" + "<td>" + data.classification + "</td>" + "</tr>");
 
     	}
     	
@@ -217,9 +217,9 @@ var drawData = function() {
 function removeTableRow(jQtable){
     jQtable.each(function(){
         if($('tbody', this).length > 0){
-            $('tbody tr:last', this).remove();
+            $('tbody tr:last', this).remove().delay(800);
         }else {
-            $('tr:last', this).remove();
+            $('tr:last', this).remove().delay(800);
         }
     });
 }
