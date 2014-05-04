@@ -11,6 +11,7 @@ jQuery(function($) {
     var percentTextTable = $("#percenttexttable").find('tbody');
 
     socket.on('tweets', function(data) {
+    	data.toString();
     	totalTweets++;
             // Check Limit
             if(totalTweets > 8) {
@@ -22,6 +23,7 @@ jQuery(function($) {
     });
 
     socket.on('words', function(data) {
+    	data.toString();
     	totalWords++;
     	// check limit
     	if(totalWords > 10) {
