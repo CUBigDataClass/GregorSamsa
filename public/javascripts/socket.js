@@ -1,4 +1,5 @@
-var socket = io.connect('http://54.187.141.69');
+//var socket = io.connect('http://54.187.141.69');
+var socket = io.connect('http://localhost');
 var totalTweets = 0;
 var totalWords = 0;
 var scene;
@@ -11,26 +12,45 @@ jQuery(function($) {
     var percentTextTable = $("#percenttexttable").find('tbody');
 
     socket.on('tweets', function(data) {
+    	
     	data.toString();
-    	totalTweets++;
-        // Check Limit
-        if(totalTweets > 8) {
-            removeTableRow($("#tweetstexttable"));
-        }
-        // add it to the table
-        tweetsTextTable.prepend("<tr><td>" + data.text + "</td></tr>");
-        putPoint("" + data.coordinates[0] +','+ data.coordinates[1] +','+ data.classification);
+    	
+    	//Check to see if tweet already added
+    	contains = $("#tweetstexttable tr > td:contains(" + data.text+ ")");
+    	if(contains.length <= 0){
+    		totalTweets++;
+    		 // Check Limit
+	        if(totalTweets > 8) {
+	            removeTableRow($("#tweetstexttable"));
+	        }
+	        // add it to the table
+	        tweetsTextTable.prepend("<tr><td>" + data.text + "</td></tr>");
+	        putPoint("" + data.coordinates[0] +','+ data.coordinates[1] +','+ data.classification);
+
+    	}
+
+       
     });
 
     socket.on('words', function(data) {
     	data.toString();
-    	totalWords++;
-    	// check limit
-    	if(totalWords > 10) {
-    		removeTableRow($('#percenttexttable'));
+    	contains = $("#percenttexttable tr > td:contains(" + data.word + ")");
+
+    	if(contains.length > 0){
+    		contains.parent().html("<td>" + data.word + "</td>" + "<td>" + data.percent + "</td>" + "<td>" + data.classification + "</td>");
     	}
-    	// add to table
-    	percentTextTable.prepend("<tr>" + "<td>" + data.word + "</td>" + "<td>" + data.percent + "</td>" + "</tr>");
+
+    	else{
+    		// check limit
+    		totalWords++;
+	    	if(totalWords > 10) {
+	    		removeTableRow($('#percenttexttable'));
+	    	}
+	    	// add to table
+	    	percentTextTable.prepend("<tr>" + "<td>" + data.word + "</td>" + "<td>" + data.percent + "</td>" + "<td>" + data.classification + "</td>" + "</tr>");
+
+    	}
+    	
     });
 });
 

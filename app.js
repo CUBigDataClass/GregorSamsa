@@ -31,9 +31,11 @@ app.get('/', routes.index);
 app.get('/users', users.list);
 
 var tcp = net.createServer(function(socket) {
-	socket.on('data', function(data) {
+    socket.on('data', function(data) {
         try{
-            var pack = JSON.parse(data);
+            var pack = JSON.parse(data);     
+        
+       
             if(pack.text) {
                 io.sockets.volatile.emit('tweets', {
                     text: pack.text,
@@ -45,15 +47,11 @@ var tcp = net.createServer(function(socket) {
                 io.sockets.volatile.emit('words', {
                     word: pack.word,
                     percent: pack.percent,
-                    classifcation: pack.classification
+                    classification: pack.classification
                 });
             }
-
-        } catch (e){
-            console.log(e);
-        }
-        
-	});
+        } catch(e){console.log(e);}
+    });
 });
 
 tcp.listen(1337, "0.0.0.0");
