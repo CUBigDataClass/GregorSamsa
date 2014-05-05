@@ -48,9 +48,7 @@ jQuery(function($) {
 	    	}
 	    	// add to table
 	    	percentTextTable.prepend("<tr>" + "<td>" + data.word + "</td>" + "<td>" + data.percent + "</td>" + "<td>" + data.classification + "</td>" + "</tr>");
-
     	}
-    	
     });
 });
 
@@ -120,27 +118,6 @@ var draw = function () {
 	}
 }
 
-var drawData = function() {
-
-	var data ;
-	data = new XMLHttpRequest();
-
-	results = []
-	data.open('get', 'beergeo4.txt', true); 
-	data.onreadystatechange= boom;
-	data.send(null);
-	
-	function boom() {
-		if(data.readyState==4) {
-			data2=data.responseText;
-			var coords = data2.split("\n");
-			for( var i = 0; i < coords.length; ++i ) {
-				putPoint(coords[i]);
-			}
-		}
-	}
-}
-
 	function putPoint(coord) {
 		var tokens = coord.split(',');
 		var lat = tokens[0];
@@ -149,7 +126,6 @@ var drawData = function() {
 		var theta = (16 - longi) * Math.PI / 180;
 		addPoint(phi, theta, tokens[2]);
 	}
-
 
 	function createSphere(radius, segments) {
 		return new THREE.Mesh(
