@@ -1,5 +1,4 @@
-//var socket = io.connect('http://54.187.141.69');
-var socket = io.connect('http://localhost');
+var socket = io.connect('http://54.187.141.69');
 var totalTweets = 0;
 var totalWords = 0;
 var scene;
